@@ -17,12 +17,14 @@ int displayScreenNumMax = 3;
 unsigned long lastTimer = 0;
 unsigned long timerDelay = 15000;
 
+DisplayManager displayManager;
+
 void setup() {
   Serial.begin(9600);
 
   pinMode(buttonPin, INPUT);
 
-  setupDisplay();
+  displayManager.setup();
 }
 
 void loop() {
@@ -37,7 +39,7 @@ void loop() {
     if (reading != buttonState) {
       buttonState = reading;
       if (buttonState == HIGH) {
-        updateScreen(displayScreenNum);
+        displayManager.updateScreen(displayScreenNum);
         Serial.println(displayScreenNum);
         if(displayScreenNum < displayScreenNumMax) {
           displayScreenNum++;
@@ -53,7 +55,7 @@ void loop() {
   
   // Change screen every 15 seconds (timerDelay variable)
   if ((millis() - lastTimer) > timerDelay) {
-    updateScreen(displayScreenNum);
+    displayManager.updateScreen(displayScreenNum);
     Serial.println(displayScreenNum);
     if(displayScreenNum < displayScreenNumMax) {
       displayScreenNum++;

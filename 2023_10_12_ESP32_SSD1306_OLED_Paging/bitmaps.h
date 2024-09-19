@@ -1,6 +1,13 @@
 #define LOGO_HEIGHT 16
 #define LOGO_WIDTH  16
 
+// OLED Display
+#define SCREEN_WIDTH 128  // OLED display width, in pixels
+#define SCREEN_HEIGHT 64  // OLED display height, in pixels
+
+#define I2Cdisplay_SDA 21
+#define I2Cdisplay_SCL 22
+
 static const unsigned char PROGMEM temperature_icon[] ={
   0b00000001, 0b11000000, //        ###      
   0b00000011, 0b11100000, //       #####     
