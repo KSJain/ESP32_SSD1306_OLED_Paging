@@ -13,7 +13,6 @@ enum DISPLAY_PAGE {
 
 class DisplayManager {
   public:
-
     DisplayManager();
     void setup();
     void updateScreen(int displayScreenNum);
@@ -24,10 +23,13 @@ class DisplayManager {
 
     // Screens
     int displayScreenNumber = 0;
-    int displayScreenNumMax = 3;
+    int displayScreenNumMax = 1;
 
     // Display Indicator
     void displayIndicator(int displayNumber);
+    
+    // SCREEN NUMBER 0: DEMO
+    void demoScreen();
     
     // SCREEN NUMBER 1: DATE AND TIME
     void displayLocalTime();

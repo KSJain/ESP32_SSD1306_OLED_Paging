@@ -13,16 +13,17 @@ DisplayManager::DisplayManager() {}
       for(;;);
     }
 
+    display.setRotation(2);
     display.clearDisplay();
     display.setTextColor(WHITE);
   }
 
 // PRIVATE: Create display marker for each screen
   void DisplayManager::displayIndicator(int displayNumber) {
-    int xCoordinates[5] = {44, 54, 64, 74}; //84
-    for (int i =0; i<4; i++) {
+    int xCoordinates[5] = {44, 54, 64, 74, 84};
+    for (int i =0; i<5; i++) {
       if (i == displayNumber) {
-        display.fillCircle(xCoordinates[i], 60, 2, WHITE);
+        display.fillCircle(xCoordinates[i], 60, 3, WHITE);
       }
       else {
         display.drawCircle(xCoordinates[i], 60, 2, WHITE);
@@ -30,24 +31,45 @@ DisplayManager::DisplayManager() {}
     }
   }  
 
-// PRIVATE: SCREEN NUMBER 1: DATE AND TIME
-  void DisplayManager::displayLocalTime() {
-    //Display Date and Time on OLED display
+// PRIVATE: SCREEN NUMBER 0: DEMO
+  void DisplayManager::demoScreen() {
     display.clearDisplay();
     display.setTextColor(WHITE);
 
     display.setTextSize(1);
     display.setCursor(0,0);
-    display.print("Wed, 18 Oct 2024");
+    display.print("Size 1");// 8px
+
+    display.setTextSize(3);
+    display.setCursor(0,24);
+    display.print("Size 3");// 24px
+
+    display.setTextSize(2);
+    display.setCursor(0,8);
+    display.print("Size 2");// 16px
+
+    displayIndicator(displayScreenNumber);
+    display.display();
+  }
+
+// PRIVATE: SCREEN NUMBER 1: DATE AND TIME
+  void DisplayManager::displayLocalTime() {
+    //Display Date and Time on OLED display
+    display.clearDisplay();//
+    display.setTextColor(WHITE);//
+
+    display.setTextSize(1);//
+    display.setCursor(0,0);//
+    display.print("Wed, 18 Oct 2024");//
 
     display.setTextColor(BLACK, WHITE); // Draw 'inverse' text
     display.setCursor(16,8);
     display.print("Wed, 18 Oct 2024");
-    display.invertDisplay(false);
+    display.invertDisplay(false);//
     display.setTextColor(WHITE);
 
     display.setTextSize(3);
-    display.drawBitmap(110, 32, sun_icon, LOGO_WIDTH, LOGO_HEIGHT, WHITE);
+    display.drawBitmap(110, 32, sun_icon, LOGO_WIDTH, LOGO_HEIGHT, WHITE);//
     
     display.setCursor(0,26);
     display.print("04:20");
@@ -56,7 +78,8 @@ DisplayManager::DisplayManager() {}
     display.print("AM");
 
     displayIndicator(displayScreenNumber);
-    display.display();
+    display.display();//
+    // display.setRotation(1);//invertDisplay
   }
 
 // PRIVATE: SCREEN NUMBER 2: TEMPERATURE
@@ -66,10 +89,10 @@ DisplayManager::DisplayManager() {}
     display.drawBitmap(15, 5, temperature_icon, LOGO_WIDTH, LOGO_HEIGHT ,1);
     display.setCursor(35, 5);
     display.print("31");
-    display.cp437(true);
+    display.cp437(true);//
     display.setTextSize(1);
     display.print(" ");
-    display.write(167);
+    display.write(167);//
     display.print("C");
     display.setCursor(0, 34);
     display.setTextSize(1);
@@ -136,12 +159,12 @@ DisplayManager::DisplayManager() {}
     display.display();
   }
 
-
+// ROUTER
 // PUBLIC: Display the right screen accordingly to the displayScreenNumber
   void DisplayManager::updateScreen(int displayScreenNum) {
     displayScreenNumber = displayScreenNum;
     if (displayScreenNumber == 0){
-      displayLocalTime();
+      demoScreen();
     }
     else if (displayScreenNumber == 1) {
       displayTemperature();
@@ -149,8 +172,11 @@ DisplayManager::DisplayManager() {}
     else if (displayScreenNumber == 2) {
       displayHumidity();
     }
-    else {
+    else if (displayScreenNumber == 3) {
       displayPressure();
+    }
+    else if (displayScreenNumber == 4) {
+      displayLocalTime();
     }
   }
 

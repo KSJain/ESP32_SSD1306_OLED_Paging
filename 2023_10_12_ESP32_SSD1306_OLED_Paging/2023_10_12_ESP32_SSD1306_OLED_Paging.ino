@@ -2,7 +2,8 @@
 #include "Display_Manager.h"      
 
 // Pushbutton
-#define buttonPin 2    
+#define buttonPin 12    
+// #define buttonPin 0    // BOOT pin on chip
 
 int buttonState;
 int lastButtonState = LOW;
@@ -12,10 +13,10 @@ unsigned long debounceDelay = 50;
 
 // Screens
 int displayScreenNum = 0;
-int displayScreenNumMax = 3;
+int displayScreenNumMax = 0;//5
 
 unsigned long lastTimer = 0;
-unsigned long timerDelay = 15000;
+unsigned long timerDelay = 5000;
 
 DisplayManager displayManager;
 
