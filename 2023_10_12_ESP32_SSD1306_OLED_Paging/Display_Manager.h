@@ -15,6 +15,7 @@ class DisplayManager {
   public:
     DisplayManager();
     void setup();
+    void showLaunchScreen();
     void updateScreen(int displayScreenNum);
 
   private:
@@ -30,7 +31,13 @@ class DisplayManager {
     
     // SCREEN NUMBER 0: DEMO
     void demoScreen();
-    
+
+    // SCREEN NUMBER 0: RECTANGLES
+    void testdrawroundrect();
+
+    // SCREEN NUMBER 2: TEXT SCROLL
+    void testscrolltext();
+
     // SCREEN NUMBER 1: DATE AND TIME
     void displayLocalTime();
     

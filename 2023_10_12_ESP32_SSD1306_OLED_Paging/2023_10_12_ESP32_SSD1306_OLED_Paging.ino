@@ -2,18 +2,17 @@
 #include "Display_Manager.h"      
 
 // Pushbutton
-#define buttonPin 12    
-// #define buttonPin 0    // BOOT pin on chip
+#define buttonPin 0    // BOOT pin on chip
 
-int buttonState;
-int lastButtonState = LOW;
+int buttonState = LOW;
+int lastButtonState = HIGH;
 
 unsigned long lastDebounceTime = 0;
 unsigned long debounceDelay = 50;
 
 // Screens
-int displayScreenNum = 0;
-int displayScreenNumMax = 0;//5
+int displayScreenNum = 1;
+int displayScreenNumMax = 5;
 
 unsigned long lastTimer = 0;
 unsigned long timerDelay = 5000;
@@ -26,6 +25,8 @@ void setup() {
   pinMode(buttonPin, INPUT);
 
   displayManager.setup();
+
+  displayManager.showLaunchScreen();
 }
 
 void loop() {
@@ -41,12 +42,13 @@ void loop() {
       buttonState = reading;
       if (buttonState == HIGH) {
         displayManager.updateScreen(displayScreenNum);
+        Serial.println("BUTTON PRESS");
         Serial.println(displayScreenNum);
         if(displayScreenNum < displayScreenNumMax) {
           displayScreenNum++;
         }
         else {
-          displayScreenNum = 0;
+          displayScreenNum = 1;
         }
         lastTimer = millis();
       }
@@ -62,7 +64,7 @@ void loop() {
       displayScreenNum++;
     }
     else {
-      displayScreenNum = 0;
+      displayScreenNum = 1;
     }
     lastTimer = millis();
   }

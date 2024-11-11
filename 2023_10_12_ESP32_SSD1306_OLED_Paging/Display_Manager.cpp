@@ -17,12 +17,34 @@ DisplayManager::DisplayManager() {}
     display.clearDisplay();
     display.setTextColor(WHITE);
   }
+// PUBLIC - SHOW LAUNCH SCREEN
+  void DisplayManager::showLaunchScreen() {
+    display.clearDisplay();
+    testdrawroundrect();
+    delay(500);
+
+    display.setTextColor(BLACK, WHITE);
+    display.setTextSize(2);
+    display.setCursor(40,12);
+    display.print("RAMU");// 16px
+    display.display();
+
+    display.setTextColor(BLACK, WHITE);
+    display.setTextSize(1);
+    display.setCursor(25,40);
+    display.print("HERE TO HELP!");// 16px
+    display.display();
+    delay(1000);
+  }
 
 // PRIVATE: Create display marker for each screen
   void DisplayManager::displayIndicator(int displayNumber) {
+    Serial.print("displayIndicator ");
+    Serial.println(displayNumber);
+
     int xCoordinates[5] = {44, 54, 64, 74, 84};
-    for (int i =0; i<5; i++) {
-      if (i == displayNumber) {
+    for (int i = 0; i < 5; i++) {
+      if (i == (displayNumber-1)) {
         display.fillCircle(xCoordinates[i], 60, 3, WHITE);
       }
       else {
@@ -40,18 +62,33 @@ DisplayManager::DisplayManager() {}
     display.setCursor(0,0);
     display.print("Size 1");// 8px
 
+    display.setTextSize(2);
+    display.setCursor(0,8);
+    display.print("Size 2");// 16px
+
     display.setTextSize(3);
     display.setCursor(0,24);
     display.print("Size 3");// 24px
 
-    display.setTextSize(2);
-    display.setCursor(0,8);
-    display.print("Size 2");// 16px
+    display.drawBitmap(0, 48, temperature_icon, LOGO_WIDTH, LOGO_HEIGHT ,1);
 
     displayIndicator(displayScreenNumber);
     display.display();
   }
 
+// PRIVATE: 
+    void DisplayManager::testdrawroundrect() {
+      display.clearDisplay();
+
+      for(int16_t i=0; i<display.height()/2-2; i+=2) {
+        display.drawRoundRect(i, i, display.width()-2*i, display.height()-2*i,
+        display.height()/4, WHITE);
+        display.display();
+        delay(1);
+      }
+
+      // delay(2000);
+    }
 // PRIVATE: SCREEN NUMBER 1: DATE AND TIME
   void DisplayManager::displayLocalTime() {
     //Display Date and Time on OLED display
@@ -162,20 +199,23 @@ DisplayManager::DisplayManager() {}
 // ROUTER
 // PUBLIC: Display the right screen accordingly to the displayScreenNumber
   void DisplayManager::updateScreen(int displayScreenNum) {
+    Serial.print("updateScreen ");
+    Serial.println(displayScreenNum);
+
     displayScreenNumber = displayScreenNum;
-    if (displayScreenNumber == 0){
+    if (displayScreenNumber == 1){
       demoScreen();
     }
-    else if (displayScreenNumber == 1) {
+    else if (displayScreenNumber == 2) {
       displayTemperature();
     }
-    else if (displayScreenNumber == 2) {
+    else if (displayScreenNumber == 3) {
       displayHumidity();
     }
-    else if (displayScreenNumber == 3) {
+    else if (displayScreenNumber == 4) {
       displayPressure();
     }
-    else if (displayScreenNumber == 4) {
+    else if (displayScreenNumber == 5) {
       displayLocalTime();
     }
   }
